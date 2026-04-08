@@ -125,5 +125,15 @@ Nếu sai ngược lại thì chuyện gì xảy ra? *Nếu chọn Recall cao nh
 - Frontend: Next.js 14 + TailwindCSS (Dark Mode, Citation Viewer Modal)
 - LLM: OpenAI GPT-4o-mini (~$0.001/query, latency <2s)
 
+## 7. Phân công nhiệm vụ (Chia Việc)
+
+| Thành viên | Vai trò & Trách nhiệm chính trong dự án |
+|-----------|------------------------------------------|
+| **Trịnh Kế Tiến (Product Lead & Fullstack Dev)** | **(Thành viên chính)**. Đề xuất quy trình, thiết kế kiến trúc AI tổng thể, trực tiếp lập trình Core RAG Backend + Frontend Next.js MVP, tổng hợp và hoàn thiện toàn bộ bản SPEC. |
+| **Mai Phi Hiếu (UX/Data Analyst)** | Thiết kế User Stories (4 paths), vạch ra kịch bản Xử lý ngoại luồng (Fallback), thu thập dữ liệu nội quy nhân sự làm Mock Data. |
+| **Nguyễn Năng Anh (Business Analyst)** | Phụ trách tính toán bài toán đầu tư (ROI 3 kịch bản), rà soát hiệu quả biên (Marginal value) và vẽ UI Mockup tính năng Citation. |
+| **Phạm Thanh Tùng (QA/Security)** | Đặc tả luồng đo lường chất lượng AI (Eval metrics), rà soát Top 3 Failure Modes và thiết lập phương án phòng chống Data Leakage. |
+| **Dương Phương Thảo (Product Strategist)** | Đóng góp và tinh chỉnh khung AI Product Canvas (Value, Trust, Feasibility), xây dựng quy trình Learning Signal cho Feedback Loop. |
+
 ---
 *SPEC Final — Nhóm 30 · Phòng E403 — Day 5 Hackathon AI Thực Chiến · VinUni 2026*
