@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 5 — AI Product Thinking: Designing for Uncertainty</title>
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <!-- Theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent-blue: #60a5fa;
+            --accent-gold: #fbbf24;
+            --accent-purple: #a78bfa;
+            --accent-green: #34d399;
+            --accent-rose: #fb7185;
+            --text-muted: #94a3b8;
+            --bg-card: rgba(30, 41, 59, 0.7);
+        }
+
+        .reveal {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .reveal h1 { font-size: 2.2em; }
+        .reveal h2 { font-size: 1.5em; }
+
+        .reveal p, .reveal li {
+            text-align: left;
+            font-size: 0.82em;
+            line-height: 1.7;
+        }
+
+        .highlight-text {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .highlight-purple {
+            color: var(--accent-purple);
+            font-weight: bold;
+        }
+
+        .highlight-green {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .highlight-rose {
+            color: var(--accent-rose);
+            font-weight: bold;
+        }
+
+        .footer-name {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.4em;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 16px;
+        }
+
+        .card-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+
+        .card h4 {
+            color: var(--accent-blue);
+            margin: 0 0 8px 0;
+            font-size: 0.75em;
+            text-transform: none;
+        }
+
+        .card p, .card li {
+            font-size: 0.65em !important;
+            color: #cbd5e1;
+            margin: 0;
+        }
+
+        /* Path boxes */
+        .path-box {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 0 12px 12px 0;
+            padding: 14px 18px;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .path-box.gold { border-left-color: var(--accent-gold); }
+        .path-box.green { border-left-color: var(--accent-green); }
+        .path-box.purple { border-left-color: var(--accent-purple); }
+        .path-box.rose { border-left-color: var(--accent-rose); }
+
+        .path-box h4 {
+            margin: 0 0 6px 0;
+            font-size: 0.75em;
+            text-transform: none;
+        }
+        .path-box.gold h4 { color: var(--accent-gold); }
+        .path-box.green h4 { color: var(--accent-green); }
+        .path-box.purple h4 { color: var(--accent-purple); }
+        .path-box.rose h4 { color: var(--accent-rose); }
+
+        .path-box p {
+            font-size: 0.65em !important;
+            color: #cbd5e1;
+            margin: 0;
+        }
+
+        /* Flow diagram */
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: var(--bg-card);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .flow-step .emoji {
+            font-size: 1.4em;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .flow-step .label {
+            font-size: 0.55em;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .flow-arrow {
+            font-size: 1.2em;
+            color: var(--accent-gold);
+        }
+
+        /* Canvas table */
+        .canvas-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 6px;
+            margin-top: 12px;
+        }
+
+        .canvas-table td {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 12px;
+            vertical-align: top;
+            font-size: 0.6em;
+            color: #cbd5e1;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+        }
+
+        .canvas-table td strong {
+            color: var(--accent-blue);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1.05em;
+        }
+
+        /* Badge / Tag */
+        .tag {
+            display: inline-block;
+            background: rgba(96, 165, 250, 0.15);
+            color: var(--accent-blue);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.6em;
+            margin: 3px 2px;
+            font-weight: 600;
+        }
+
+        .tag.gold { background: rgba(251, 191, 36, 0.15); color: var(--accent-gold); }
+        .tag.green { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); }
+        .tag.purple { background: rgba(167, 139, 250, 0.15); color: var(--accent-purple); }
+        .tag.rose { background: rgba(251, 113, 133, 0.15); color: var(--accent-rose); }
+
+        /* Subtitle */
+        .subtitle {
+            text-align: center;
+            color: #cbd5e1;
+            font-size: 0.95em;
+            margin-top: 20px;
+        }
+
+        .small-note {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.55em;
+            margin-top: 12px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid rgba(96, 165, 250, 0.25);
+            margin: 12px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <!-- Chữ ký dưới góc phải -->
+        <div class="footer-name">Trịnh Kế Tiến — 2A202600500</div>
+
+        <div class="slides">
+
+            <!-- ============= SLIDE 0: TITLE ============= -->
+            <section>
+                <h1>🧠 HR Copilot</h1>
+                <h3 style="color: var(--accent-gold);">AI RAG Engine dành cho Doanh nghiệp</h3>
+                <p class="subtitle">
+                    Giải pháp tự động hóa Q&A nội bộ an toàn, minh bạch<br>
+                    Track: Enterprise (Doanh nghiệp)
+                </p>
+                <div style="margin-top: 30px;">
+                    <span class="tag">AI RAG</span>
+                    <span class="tag gold">Private Data</span>
+                    <span class="tag purple">Trust Design</span>
+                    <span class="tag green">Cost Savings</span>
+                </div>
+                <p class="small-note">Nhóm 30 - Phòng E403 &nbsp; | &nbsp; Hackathon AI Thực Chiến 2026</p>
+            </section>
+
+            <!-- ============= SLIDE 1: VẤN ĐỀ ============= -->
+            <section>
+                <h2>1. Nỗi Đau Doanh Nghiệp (Pain Point)</h2>
+                <hr>
+                <div class="card-grid">
+                    <div class="card fragment">
+                        <h4>🔴 Đối với Nhân viên</h4>
+                        <p>
+                            • Quá tải thông tin từ hàng chục trang "Sổ tay nhân viên"<br>
+                            • Chờ đợi lâu để được giải đáp các quy chế cơ bản (Nghỉ phép, lương, công tác)<br>
+                            • Trải nghiệm lúng túng trong các tình huống cần quy trình
+                        </p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>🔴 Đối với HR / IT Helpdesk</h4>
+                        <p>
+                            • Mất đến <strong>hàng trăm giờ mỗi tháng</strong> để trả lời những câu hỏi lặp đi lặp lại<br>
+                            • Tắc nghẽn ticket hỗ trợ (L1 Support overload)<br>
+                            • Làm giảm hiệu suất các công việc chiến lược của nhân sự
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============= SLIDE 2: GIẢI PHÁP ============= -->
+            <section>
+                <h2>2. Giải Pháp: HR Copilot & RAG Engine</h2>
+                <hr>
+                <p style="font-size: 0.75em; color: #cbd5e1; text-align: center;">
+                    ChatGPT KHÔNG biết số ngày phép của công ty bạn, vì đó là dữ liệu <strong style="color: var(--accent-rose);">Tối mật</strong>.
+                </p>
+
+                <div class="path-box green fragment">
+                    <h4>✅ Giải pháp Bảo mật tuyệt đối</h4>
+                    <p>Sử dụng <strong>RAG (Retrieval-Augmented Generation) cục bộ</strong>. AI chỉ đọc "Sổ tay công ty" được lưu trên Server nội bộ. Tuyệt đối không Train Model ra ngoài.</p>
+                </div>
+
+                <div class="path-box purple fragment">
+                    <h4>⚙️ Công nghệ Fullstack (Đã chạy thực tế)</h4>
+                    <p>
+                        • <strong>Backend:</strong> FastAPI + LangChain + ChromaDB (Vector Store)<br>
+                        • <strong>Frontend:</strong> Next.js + TailwindCSS UI<br>
+                        • <strong>LLM:</strong> GPT-4o-mini (Cực tiết kiệm API Cost, Latency &lt; 2s)
+                    </p>
+                </div>
+            </section>
+
+            <!-- ============= SLIDE 3: TRUST DESIGN ============= -->
+            <section>
+                <h2>3. Minh Bạch Chống Ảo Giác (Design for Trust)</h2>
+                <hr>
+                <p style="font-size: 0.75em; color: #cbd5e1; text-align: center;">Làm sao để người dùng tin tưởng một câu trả lời của AI?</p>
+                
+                <div class="card-grid" style="margin-top: 14px;">
+                    <div class="card fragment">
+                        <h4 style="color: var(--accent-gold);">Bắt buộc Trích dẫn (Citation)</h4>
+                        <p>
+                            Theo FrameWork UX, AI <strong>bắt buộc phải khai báo nguồn gốc</strong> cho mọi câu trả lời. Ví dụ: <em>[Trích: chinh-sach-nghi-phep.md]</em>.
+                        </p>
+                    </div>
+                    <div class="card fragment">
+                        <h4 style="color: var(--accent-blue);">Bằng Chứng Nghĩa Đen (Viewer Modal)</h4>
+                        <p>
+                            Người dùng chỉ cần Click vào thanh nguồn trích dẫn, <strong>văn bản thật sẽ xổ xuống</strong> ngay trên màn hình. Mọi thông tin được đối chứng ngay lập tức!
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============= SLIDE 4: UNCERTAINTY DESIGN ============= -->
+            <section>
+                <h2>4. Quản Lý Rủi Ro (Design for Uncertainty)</h2>
+                <hr>
+                
+                <div class="card-grid" style="margin-top: 14px;">
+                    <div class="card">
+                        <h4>❌ Vấn đề của Chatbot thông thường</h4>
+                        <p>
+                            Khi bị hỏi những câu ngoài lề (Giá vàng, hay quy chế nội bộ chưa kịp ban hành), các Chatbot dễ dàng <strong>bịa chuyện (Hallucination)</strong> để chiều lòng người dùng, gây hậu quả pháp lý cho công ty.
+                        </p>
+                    </div>
+                    <div class="card fragment">
+                        <h4>🛡️ Guardrails Của HR Copilot</h4>
+                        <p>
+                            Nếu phát hiện câu hỏi ngoài luồng, hệ thống không cố trả lời mà lập tức <strong>bật UI cảnh báo Đỏ</strong> và nhường quyền (Escalate) cho Người thật (Human HR) xử lý yêu cầu. Trung thực tuyệt đối!
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============= SLIDE 5: ROI ============= -->
+            <section>
+                <h2>5. Mô hình Hoàn vốn (ROI) - Rất khả thi</h2>
+                <hr>
+                <table class="canvas-table">
+                    <tr>
+                        <td colspan="3">
+                            <strong>Dự kiến cho Công ty quy mô quy chuẩn 1000 Nhân viên</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Đầu Tư (Chi phí API + Server)</strong>
+                            <strong style="color: var(--accent-rose);">~ $500 / tháng</strong>
+                        </td>
+                        <td>
+                            <strong>Tiết Kiệm Thời Gian HR/IT</strong>
+                            <strong style="color: var(--accent-blue);">~ 750 giờ / tháng</strong>
+                        </td>
+                        <td>
+                            <strong>Thực Lãi (Net Benefit)</strong>
+                            <strong style="color: var(--accent-green);">+ $2500 / tháng</strong>
+                        </td>
+                    </tr>
+                </table>
+                <p class="fragment" style="text-align: center; margin-top: 20px; color: var(--accent-gold); font-size: 0.8em;">
+                    ⚡ <strong>Kill Criteria:</strong> Hệ thống tự động bù đắp chi phí vận hành ngay trong năm học đầu tiên!
+                </p>
+            </section>
+
+            <!-- ============= SLIDE 6: DEMO ============= -->
+            <section>
+                <h1>🚀 TIME FOR LIVE DEMO</h1>
+                <h3 style="color: var(--accent-blue);">Mời Giám Khảo Xem Ứng Dụng Next.js Thực Tế!</h3>
+                <div style="margin-top: 30px;">
+                    <span class="tag gold">Dark Mode</span>
+                    <span class="tag purple">Live Citation Validation</span>
+                    <span class="tag rose">Red Fallback Alert</span>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Script tải Reveal.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            center: true,
+            width: 1100,
+            height: 700,
+            margin: 0.05,
+            minScale: 0.2,
+            maxScale: 2.0,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            plugins: [ RevealNotes ]
+        });
+    </script>
+</body>
+</html>
