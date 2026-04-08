@@ -32,7 +32,7 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
 # Vector Store Path
 CHROMA_PATH = "./chroma_db"
-DATA_DIR = "../../data"  # Path to Nhom53-E304/data
+DATA_DIR = "../../data"  # Path to Nhom30-E403/data
 
 # Initialize ChromaDB Vector Store
 vector_store = Chroma(
@@ -41,7 +41,7 @@ vector_store = Chroma(
 )
 
 def load_documents():
-    """Loads markdown data from Nhom53-E304/data and indexes it."""
+    """Loads markdown data from Nhom30-E403/data and indexes it."""
     docs = []
     if not os.path.exists(DATA_DIR):
         return 0

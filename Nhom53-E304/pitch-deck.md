@@ -7,7 +7,7 @@ lineNumbers: false
 
 # 🤖 Trợ lý Nhân sự Nội bộ (HR/IT Helpdesk AI)
 ### Giải pháp tự động hóa Q&A cho Doanh nghiệp
-**Nhóm 53 (Phòng E304)**
+**Nhóm 30 (Phòng E403)**
 
 ---
 
@@ -68,4 +68,4 @@ AI sinh ra để kiếm tiền hoặc tiết kiệm tiền! (Quy mô 1000 nhân 
 
 Chúng tôi thiết kế AI theo mô hình **Augmentation** (Trợ lý hỗ trợ tra cứu) chứ không phải Automation toàn vẹn. Nhờ đó, HR vẫn làm chủ những quyết định nhân sự cuối cùng, trong khi cởi trói được toàn bộ áp lực L1 Trợ giúp.
 
-**Xin cám ơn Ban giám khảo! Khởi chạy Bản Demo tại `Nhom53-E304/prototype.html`!**
+**Xin cám ơn Ban giám khảo! Khởi chạy Bản Demo tại `Nhom30-E403/prototype.html`!**
